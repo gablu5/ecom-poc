@@ -1,0 +1,37 @@
+{
+  "expectation_suite_name": "sales_expectations",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {"column": "date"}
+    },
+    {
+      "expectation_type": "expect_column_values_to_match_strftime_format",
+      "kwargs": {"column": "date", "strftime_format": "%Y-%m-%d"}
+    },
+    {
+      "expectation_type": "expect_column_values_to_not_be_null",
+      "kwargs": {"column": "sku"}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_of_type",
+      "kwargs": {"column": "qty", "type_": "int"}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {"column": "qty", "min_value": 0}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {"column": "region", "value_set": ["NA", "EU", "APAC"]}
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {"column": "price", "min_value": "$PARAMETER:rolling_3sigma_min", "max_value": "$PARAMETER:rolling_3sigma_max", "mostly": 0.95},
+      "meta": {"severity": "warning", "note": "3σ rolling mean check"}
+    }
+  ],
+  "ge_cloud_id": null,
+  "data_asset_type": null,
+  "meta": {}
+}
