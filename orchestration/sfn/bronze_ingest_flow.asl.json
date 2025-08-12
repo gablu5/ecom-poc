@@ -1,0 +1,34 @@
+{
+  "Comment": "Bronze Ingestion Flow",
+  "StartAt": "RunCrawler",
+  "States": {
+    "RunCrawler": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startCrawler.sync",
+      "Parameters": {
+        "Name.$": "$.crawler_name"
+      },
+      "Next": "RunGreatExpectations"
+    },
+    "RunGreatExpectations": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName.$": "$.ge_lambda_arn",
+        "Payload": {
+          "suite_name.$": "$.suite_name",
+          "s3_path.$": "$.bronze_path"
+        }
+      },
+      "Next": "RunGlueJob"
+    },
+    "RunGlueJob": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName.$": "$.glue_job_name"
+      },
+      "End": true
+    }
+  }
+}

@@ -1,0 +1,13 @@
+suite_name: commodity_price_suite
+expectations:
+  - expect_column_values_to_not_be_null:
+      column: date
+  - expect_column_values_to_not_be_null:
+      column: price
+  - expect_column_values_to_be_between:
+      column: price
+      min_value: 
+        $PARAMETER: rolling_3sigma_min
+      max_value: 
+        $PARAMETER: rolling_3sigma_max
+      mostly: 0.95
